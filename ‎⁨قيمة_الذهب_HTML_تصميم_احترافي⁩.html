@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title></title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f4f1ea;--card:#fff;--ink:#211f1b;--muted:#777168;--gold:#c79b45;--gold2:#e4c47b;--green:#2e8b67;--red:#b9534d;--line:#e8e1d5}
+body{margin:0;background:linear-gradient(135deg,#f8f6f1,#eee8dc);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+.hidden{display:none!important}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at top,#d9c18a,#151515 55%);padding:20px}
+.login-box{width:min(360px,100%);background:rgba(255,255,255,.96);border-radius:24px;padding:30px;box-shadow:0 25px 70px rgba(0,0,0,.3);text-align:center}
+.login-icon{font-size:52px;margin-bottom:10px}.login-box input{width:100%;padding:14px;border:1px solid #ddd;border-radius:12px;margin:15px 0;font-size:16px}
+.btn{border:0;border-radius:12px;padding:12px 18px;background:#24221f;color:white;cursor:pointer;font-weight:bold}.btn.gold{background:linear-gradient(135deg,#b88935,#e0bb68);box-shadow:0 8px 20px rgba(199,155,69,.25)}
+.wrap{max-width:980px;margin:auto;padding:22px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.brand{display:flex;gap:12px;align-items:center}.brand-icon{width:50px;height:50px;border-radius:15px;background:linear-gradient(135deg,#c7953d,#edd08b);display:grid;place-items:center;font-size:27px;box-shadow:0 8px 20px rgba(199,155,69,.25)}
+h1{font-size:25px;margin:0}.sub{color:var(--muted);font-size:12px;margin-top:4px}
+.actions{display:flex;gap:8px}.icon-btn{border:1px solid var(--line);background:#fff;color:#333;border-radius:12px;padding:11px 14px;cursor:pointer}
+.hero{background:linear-gradient(135deg,#26231e,#4b3a20);color:#fff;border-radius:24px;padding:25px;box-shadow:0 18px 40px rgba(50,40,25,.18);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:rgba(228,196,123,.13);left:-70px;top:-100px}
+.hero-label{color:#d8c08a;font-size:13px}.hero-value{font-size:38px;font-weight:800;margin:8px 0}.hero-row{display:flex;justify-content:space-between;align-items:end;position:relative;z-index:1}.update{font-size:12px;color:#d7d0c4}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:14px}
+.card{background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 8px 24px rgba(54,45,32,.06)}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:13px}.ico{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:#f5ecd9}
+.card h2{font-size:16px;margin:0}.label{font-size:12px;color:var(--muted)}.value{font-size:25px;font-weight:800;margin-top:7px}.gold-text{color:#a97928}.green{color:var(--green)}.red{color:var(--red)}
+.simple{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{background:#faf8f3;border-radius:12px;padding:12px}.mini span{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.mini b{font-size:18px}
+.full{grid-column:1/-1}.footer{text-align:center;color:#8b857c;font-size:11px;margin:16px}
+@media(max-width:750px){.grid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.wrap{padding:14px}.grid{grid-template-columns:1fr}.hero-value{font-size:31px}.header{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div id="login" class="login">
+  <div class="login-box">
+    <div class="login-icon">🪙</div>
+    <input id="pw" type="password" aria-label="كلمة المرور">
+    <button class="btn gold" style="width:100%" onclick="login()">دخول</button>
+  </div>
+</div>
+
+<div id="app" class="hidden wrap">
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">🪙</div>
+      <div><h1>الذهب والفضة</h1><div class="sub">لوحة متابعة بسيطة وواضحة</div></div>
+    </div>
+    <div class="actions"><button class="icon-btn" onclick="updateNow()">↻ تحديث الآن</button><button class="icon-btn" onclick="logout()">خروج</button></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-row">
+      <div><div class="hero-label">💰 إجمالي قيمة الذهب والفضة</div><div class="hero-value"><span id="total">—</span> جنيه</div></div>
+      <div class="update">آخر تحديث<br><span id="lastUpdate">—</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-head"><div class="ico">📈</div><div><h2>إجمالي الربح</h2><div class="label">مقارنة بسعر الشراء</div></div></div>
+      <div class="value green" id="profit">—</div><div class="label">جنيه</div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="ico">🕌</div><div><h2>الزكاة</h2><div class="label">2.5% بعد استبعاد ذهب الزوجة</div></div></div>
+      <div class="value gold-text" id="zakat">—</div><div class="label">جنيه</div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="ico">👩‍❤️‍👨</div><div><h2>ربح ذهب الزوجة</h2><div class="label">محسوب على عيار 21</div></div></div>
+      <div class="value" id="wifeProfit">—</div><div class="label">جنيه</div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="ico">🪙</div><div><h2>الذهب</h2><div class="label">الكميات ومتوسط الشراء</div></div></div>
+      <div class="simple">
+        <div class="mini"><span>عيار 24</span><b>700 جم</b></div><div class="mini"><span>متوسط 24</span><b>5,745.29</b></div>
+        <div class="mini"><span>عيار 21</span><b>132.11 جم</b></div><div class="mini"><span>متوسط 21</span><b>5,767.68</b></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="ico">🥈</div><div><h2>الفضة</h2><div class="label">الكميات ومتوسط الشراء</div></div></div>
+      <div class="simple"><div class="mini"><span>الكمية</span><b>9,000 جم</b></div><div class="mini"><span>متوسط الشراء</span><b>118.56</b></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div class="ico">💍</div><div><h2>ذهب الزوجة</h2><div class="label">يدخل في الإجمالي ويستبعد من الزكاة</div></div></div>
+      <div class="simple"><div class="mini"><span>الكمية</span><b>271 جم</b></div><div class="mini"><span>عيار البيع</span><b>21</b></div></div>
+    </div>
+  </div>
+  <div class="footer">تحديث تلقائي كل 5 دقائق • يمكنك التحديث يدويًا في أي وقت</div>
+</div>
+
+<script>
+const OZ=31.1034768,Q24=700,Q21=132.11,QS=9000,WIFE=271,AVG24=5745.29,AVG21=5767.68,AVGS=118.56,AVGW=1077;
+let s=JSON.parse(localStorage.getItem("gold_beautiful")||"{}");
+const $=id=>document.getElementById(id);
+const money=x=>Number(x||0).toLocaleString("ar-EG",{minimumFractionDigits:2,maximumFractionDigits:2});
+function login(){if($("pw").value==="2015"){$("login").classList.add("hidden");$("app").classList.remove("hidden");updateNow()}else $("pw").value=""}
+function logout(){location.reload()}
+async function updateNow(){
+ $("lastUpdate").textContent="جارٍ التحديث...";
+ try{
+  const [g,x,fx]=await Promise.all([
+   fetch("https://api.gold-api.com/price/XAU",{cache:"no-store"}).then(r=>r.json()),
+   fetch("https://api.gold-api.com/price/XAG",{cache:"no-store"}).then(r=>r.json()),
+   fetch("https://open.er-api.com/v6/latest/USD",{cache:"no-store"}).then(r=>r.json())
+  ]);
+  s.gold=+g.price;s.silver=+x.price;s.egp=+fx.rates.EGP;s.updated=Date.now();
+  localStorage.setItem("gold_beautiful",JSON.stringify(s));render()
+ }catch(e){$("lastUpdate").textContent="تعذر التحديث";render()}
+}
+function render(){
+ const eg=s.egp||0,g24=s.gold?s.gold/OZ*eg:0,g21=g24*21/24,sv=s.silver?s.silver/OZ*eg:0;
+ const gold=Q24*g24+Q21*g21,wife=WIFE*g21,silver=QS*sv,total=gold+wife+silver;
+ const cost=Q24*AVG24+Q21*AVG21+QS*AVGS+WIFE*AVGW;
+ $("total").textContent=money(total);$("profit").textContent=money(total-cost);
+ $("wifeProfit").textContent=money(wife-WIFE*AVGW);$("zakat").textContent=money((gold+silver)*.025);
+ if(s.updated)$("lastUpdate").textContent=new Date(s.updated).toLocaleString("ar-EG")
+}
+setInterval(()=>{if(!$("app").classList.contains("hidden"))updateNow()},300000);
+</script>
+</body>
+</html>
