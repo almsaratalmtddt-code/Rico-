@@ -1,9 +1,0 @@
-name = "masarat-erp"
-main = "src/index.js"
-compatibility_date = "2026-08-19"
-[assets]
-directory = "./public"
-[[d1_databases]]
-binding = "DB"
-database_name = "masarat-erp-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
